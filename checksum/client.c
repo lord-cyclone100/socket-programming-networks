@@ -56,12 +56,6 @@ int main(){
         }
     }
 
-    printf("Checksum = ");
-    for(int i=0;i<seglen;i++){
-        printf("%d",sum[i]);
-    }
-    printf("\n");
-
     for(int i=0;i<seglen;i++){
         if(sum[i] == 0){
             sum[i] = 1;
@@ -74,8 +68,16 @@ int main(){
     datalen = strlen(data);
     data[datalen] = '\0';
 
+    printf("Checksum = ");
+    for(int i=0;i<seglen;i++){
+        printf("%d",sum[i]);
+    }
+    printf("\n");
+
     printf("Sent data = %s",data);
 
     send(sd, data, sizeof(data),0);
+    send(sd, &seglen, sizeof(int),0);
     close(sd);
+    return 0;
 }

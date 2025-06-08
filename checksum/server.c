@@ -2,10 +2,11 @@
 #include<string.h>
 #include<arpa/inet.h>
 #include<unistd.h>
+#include <stdlib.h>
 int main(){
-    int sd,cd,cadl;
+    int sd,cd,cadl,datalen,seglen,sum[100],carry,tempsum,k;
     struct sockaddr_in sad,cad;
-    char str[50];
+    char data[100];
     sd=socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     sad.sin_family=AF_INET;
     sad.sin_port=htons(9995);
@@ -14,8 +15,42 @@ int main(){
     listen(sd,10);
     cadl=sizeof(cad);
     cd=accept(sd, (struct sockaddr *)&cad, &cadl);
-    recv(cd,str,sizeof(str),0);
-    printf("Client Says: %s\n",str);
+    recv(cd,data,sizeof(data),0);
+    recv(cd,&seglen,sizeof(int),0);
+    printf("Received data: %s\n",data);
+
+
+
+    for(int i=0;i<seglen;i++){
+        sum[i] = 0;
+    }
+
+    for(int i=datalen;i>0;i=i-seglen){
+        k = seglen - 1;
+        carry = 0;
+        for(int j=i-1;j>=(i-seglen);j--){
+            tempsum = sum[k] + (data[j]-48) + carry;
+            sum[k] = tempsum%2;
+            carry = tempsum/2;
+            k--;
+        }
+        if(carry == 1){
+            for(int j=(seglen-1);j>=0;j--){
+                tempsum = sum[j] + carry;
+                sum[j] = tempsum%2;
+                carry = tempsum/2;
+            }
+        }
+    }
+
+    for(int i=0;i<seglen;i++){
+        if(sum[i] != 0){
+            printf("Error detected");
+            exit(0);
+        }
+    }
+    printf("No error detected");
+
     close(cd);
     close(sd);
 }
