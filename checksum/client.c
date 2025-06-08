@@ -33,9 +33,6 @@ int main(){
         datalen = strlen(data);
     }
 
-    // printf("%s",data);
-    // printf("\n%d",datalen);
-
     for(int i=0;i<seglen;i++){
         sum[i] = 0;
     }
@@ -44,7 +41,7 @@ int main(){
     for(int i=datalen;i>0;i=i-seglen){
         k = seglen - 1;
         carry = 0;
-        for(int j=i-1;j>(i-seglen);j--){
+        for(int j=i-1;j>=(i-seglen);j--){
             tempsum = sum[k] + (data[j]-48) + carry;
             sum[k] = tempsum%2;
             carry = tempsum/2;
@@ -59,6 +56,7 @@ int main(){
         }
     }
 
+    printf("Checksum = ");
     for(int i=0;i<seglen;i++){
         printf("%d",sum[i]);
     }
@@ -76,11 +74,7 @@ int main(){
     datalen = strlen(data);
     data[datalen] = '\0';
 
-
-    printf("%s",data);
-
-
-
+    printf("Sent data = %s",data);
 
     send(sd, data, sizeof(data),0);
     close(sd);
