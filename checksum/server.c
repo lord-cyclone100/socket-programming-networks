@@ -44,11 +44,12 @@ int main(){
     }
 
     for(int i=0;i<seglen;i++){
-        if(sum[i] != 0){
+        if(sum[i] != 1){
             printf("Error detected");
             exit(0);
         }
     }
+    printf("%s\n",sum);
     printf("No error detected");
 
     close(cd);

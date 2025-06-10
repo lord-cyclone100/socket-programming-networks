@@ -12,6 +12,12 @@ int main(){
     sad.sin_port=htons(9995);
     sad.sin_addr.s_addr=inet_addr("127.0.0.1");
     connect(sd, (struct sockaddr *)&sad, sizeof(sad));
+
+
+
+
+
+    
     printf("Enter binary string : ");
     scanf("%s",data);
     datalen = strlen(data);
