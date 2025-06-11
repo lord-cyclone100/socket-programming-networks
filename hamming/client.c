@@ -6,7 +6,7 @@
 int main(){
 
     char store[100],data[100];
-    int r=0;
+    int r=0,temp;
     printf("Enter the data : ");
     scanf("%s",store);
 
@@ -32,8 +32,29 @@ int main(){
             data[i] = store[j++];
         }
     }
+    data[total+1] = '\0';
 
-    printf("%s",data);
+    printf("%s\n",data+1);
+
+
+
+    for(int i=0;i<r;i++){
+        int pos = (int)pow(2,i);
+        int sum = 0;
+        for(int j=pos;j<=total;j++){
+            if(data[j]!='p'){
+                temp = pos & j;
+                if(temp != 0 && data[j] == '1'){
+                    sum++;
+                }
+            }
+        }
+        data[pos] = (sum%2) + 48;
+    }
+
+    printf("%s\n",data+1);
+
+
     return 0;
 }
 
