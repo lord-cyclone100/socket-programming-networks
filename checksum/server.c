@@ -44,7 +44,7 @@ int main(){
     }
 
     for(int i=0;i<seglen;i++){
-        if(sum[i] != 1){
+        if(sum[i] != 0){
             printf("Error detected");
             exit(0);
         }
