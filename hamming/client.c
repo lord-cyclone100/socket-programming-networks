@@ -2,11 +2,19 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include <arpa/inet.h>
+#include <unistd.h>
 
 int main(){
 
     char store[100],data[100];
-    int r=0,temp;
+    int sd,cadl,r=0,temp;
+    struct sockaddr_in sad,cad;
+    sd=socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
+    sad.sin_family=AF_INET;
+    sad.sin_port=htons(9995);
+    sad.sin_addr.s_addr=inet_addr("127.0.0.1");
+    connect(sd, (struct sockaddr *)&sad, sizeof(sad));
     printf("Enter the data : ");
     scanf("%s",store);
 
@@ -20,7 +28,6 @@ int main(){
         r++;
     }
 
-    // printf("%d",r);
     int total = m+r;
     int j = 0;
 
@@ -33,10 +40,6 @@ int main(){
         }
     }
     data[total+1] = '\0';
-
-    printf("%s\n",data+1);
-
-
 
     for(int i=0;i<r;i++){
         int pos = (int)pow(2,i);
@@ -51,9 +54,20 @@ int main(){
         }
         data[pos] = (sum%2) + 48;
     }
-
+    int left = 1,right = strlen(data)-1;
+    while(left < right){
+        int t = data[left];
+        data[left] = data[right];
+        data[right] = t;
+        left++;
+        right--;
+    }
     printf("%s\n",data+1);
+    // printf("%d",strlen(data));
 
+    send(sd, data, sizeof(data),0);
+    send(sd, &r, sizeof(int),0);
+    close(sd);
 
     return 0;
 }
