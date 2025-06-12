@@ -17,7 +17,7 @@ int main(){
     printf("Enter divisor : ");
     scanf("%s",div);
 
-    for(int i=0;i<strlen(str);i++){
+    for(int i=0;i<strlen(str);i++){     //copying contents of str to newStr for future use
         newStr[i]=str[i];
     }
 

@@ -14,7 +14,7 @@ int main(){
     sad.sin_family=AF_INET;
     sad.sin_port=htons(9995);
     sad.sin_addr.s_addr=inet_addr("127.0.0.1");
-    connect(sd, (struct sockaddr *)&sad, sizeof(sad));
+    connect(sd,(struct sockaddr *)&sad, sizeof(sad));
     printf("Enter the data : ");
     scanf("%s",store);
 
@@ -54,6 +54,7 @@ int main(){
         }
         data[pos] = (sum%2) + 48;
     }
+    
     int left = 1,right = strlen(data)-1;
     while(left < right){
         int t = data[left];
